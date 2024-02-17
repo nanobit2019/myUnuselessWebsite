@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>useless web</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #0a3a2e;
+      }
+      /* canvas {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      } */
+      #btn {
+        position: absolute;
+        top: 40%;
+        left: 60%;
+        padding: 20px;
+        background-color: #92efcb;
+        color: #0a3a2e;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 24px;
+        border: 0;
+        border-radius: 10px;
+        box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.8);
+        cursor: pointer;
+      }
+      #btn:hover {
+        background-color: #f2f2f2;
+        box-shadow: none;
+      }
+
+      #action {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: 500px; /* Adjust to the width of canvas */
+        height: 500px; /* Adjust to the height of canvas */
+      }
+      H1 {
+        padding: 20px;
+        display: block;
+        border-radius: 5px;
+        background-color: #acf4de;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 36px;
+        color: #224830;
+        display: none;
+      }
+      #container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+      #year {
+        background-color: #71c3af94;
+        padding: 10px;
+        border: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 24px;
+        height: 80px;
+        display: none; /* Hide the input initially */
+      }
+      #year::placeholder {
+        line-height: 2; /* allowing input text to the center*/
+        color: #aba9a9db; /* change the color of input text */
+      }
+      input:focus {
+        outline: none;
+      }
+
+      #button {
+        padding: 40px;
+        height: 80px;
+        font-size: 24px;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f7376ac7;
+        color: #f2f2f2;
+        border: 0;
+        display: none;
+      }
+      #button:hover {
+        background-color: #f2f2f2;
+        color: #f7376ac7;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        cursor: pointer;
+      }
+      img {
+        margin-left: 25px;
+        margin-top: 10px;
+        width: 50%;
+        display: none;
+      }
+      #animalPersonality {
+        display: none;
+        background-color: white;
+        color: black;
+        border: 5px solid black;
+        font-family: "Courier New", Courier, monospace;
+        font-size: large;
+        padding: 20px 10px 20px 10px;
+        border-radius: 50px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="action">
+      <h1 id="welcome"></h1>
+      <div id="container">
+        <input id="year" />
+        <button id="button">Generate</button>
+      </div>
+      <img id="animal" alt="Chinese Zodiac Animal" />
+    </div>
+    <div id="leftRight">
+      <p id="animalPersonality">Description of the animal that you choose.</p>
+      <button id="btn">Knock!Knock!</button>
+      <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <script>
+      document.body.style.cursor = "pointer";
+      //  using boolean
+      // Variable to track button click
+      // allowing canvas " CAT " change fillstyle
+      let isButtonClicked = false;
+
+      function transform() {
+        let canvas = document.querySelector("canvas");
+        let context = canvas.getContext("2d");
+
+        //// Change the color of the circle based on button click
+
+        if (event.type === "click") {
+          // body
+          context.beginPath();
+          context.arc(300, 300, 200, 0, Math.PI * 2);
+          // write a simple if-else statement.
+          //If the button has been clicked (isButtonClicked is true), it uses #102D1F; otherwise, it uses #f2f2f2.
+          context.fillStyle = isButtonClicked ? "#102D1F" : "#f2f2f2";
+          context.fill();
+
+          // left-ear
+          context.beginPath();
+          context.moveTo(200, 150);
+          context.lineTo(145, 80);
+          context.lineTo(138, 180);
+          context.closePath();
+          context.fillStyle = "#BF3B46";
+          context.fill();
+
+          //right-ear
+          context.beginPath();
+          context.moveTo(340, 160);
+          context.lineTo(400, 100);
+          context.lineTo(400, 200);
+          context.closePath();
+          context.fillStyle = "#BF3B46";
+          context.fill();
+
+          // left-whiskers
+          context.beginPath();
+          context.moveTo(220, 260);
+          context.lineTo(150, 280);
+          context.strokeStyle = "#BF3B46";
+          context.lineWidth = 2;
+          context.stroke();
+
+          context.beginPath();
+          context.moveTo(220, 250);
+          context.lineTo(150, 260);
+          context.strokeStyle = "#BF3B46";
+          context.lineWidth = 2;
+          context.stroke();
+
+          context.beginPath();
+          context.moveTo(220, 240);
+          context.lineTo(150, 240);
+          context.strokeStyle = "#BF3B46";
+          context.lineWidth = 2;
+          context.stroke();
+
+          //reight-whiskers
+
+          context.beginPath();
+          context.moveTo(365, 235);
+          context.lineTo(285, 240);
+          context.strokeStyle = "#BF3B46";
+          context.lineWidth = 2;
+          context.stroke();
+
+          context.beginPath();
+          context.moveTo(365, 260);
+          context.lineTo(285, 250);
+          context.strokeStyle = "#BF3B46";
+          context.lineWidth = 2;
+          context.stroke();
+
+          context.beginPath();
+          context.moveTo(365, 285);
+          context.lineTo(285, 260);
+          context.strokeStyle = "#BF3B46";
+          context.lineWidth = 2;
+          context.stroke();
+
+          //  left-eye
+          context.beginPath();
+          context.arc(205, 210, 10, 0, Math.PI * 2);
+          context.fillStyle = isButtonClicked ? "#f2f2f2" : "#3A191B"; // the same as body, if the button has been clicked (isButtonClicked is true), it uses #f2f2f2; otherwise, it uses #3A191B
+          context.fill();
+
+          // right-eye
+          context.beginPath();
+          context.arc(290, 210, 10, 0, Math.PI * 2);
+          context.fillStyle = isButtonClicked ? "#f2f2f2" : "#3A191B";
+          context.fill();
+
+          // mouse
+          context.beginPath();
+          context.arc(250, 250, 10, 0, Math.PI * 2);
+          context.fillStyle = "#C5565A";
+          context.fill();
+
+          //left-hand
+          context.beginPath();
+          context.arc(320, 350, 50, 0, Math.PI * 1);
+          context.fillStyle = "#F2C0A2";
+          context.fill();
+
+          context.beginPath();
+          context.moveTo(131, 350);
+          context.lineTo(131, 300);
+          context.strokeStyle = "#593122";
+          context.lineWidth = 2;
+          context.stroke();
+
+          context.beginPath();
+          context.moveTo(228, 350);
+          context.lineTo(228, 300);
+          context.strokeStyle = "#593122";
+          context.lineWidth = 2;
+          context.stroke();
+
+          //right-hand
+          context.beginPath();
+          context.arc(180, 350, 50, 0, Math.PI * 1);
+          context.fillStyle = "#F2C0A2";
+          context.fill();
+
+          context.beginPath();
+          context.moveTo(270, 350);
+          context.lineTo(270, 300);
+          context.strokeStyle = "#593122";
+          context.lineWidth = 2;
+          context.stroke();
+
+          context.beginPath();
+          context.moveTo(369, 350);
+          context.lineTo(369, 300);
+          context.strokeStyle = "#593122";
+          context.lineWidth = 2;
+          context.stroke();
+
+          // Hide the button
+          btn.style.display = "none";
+        } else if (event.type === "mouseover") {
+        }
+        setTimeout(popupMessege, 1900);
+      }
+
+      // Welcome message pop up after canvas " CAT " shows
+      function popupMessege() {
+        let h1 = document.getElementById("welcome");
+        h1.innerHTML =
+          "Welcome to 2024. What is your zodiac sign based on your year ?";
+        h1.style.display = "block";
+
+        // Allowing users to type their year of birth
+        let input = document.querySelector("#year");
+        input.type = "text";
+        input.placeholder = "The year of your birth";
+        input.style.display = "block";
+
+        //
+
+        let button = document.querySelector("#button");
+        button.style.display = "flex";
+        button.style.alignItems = "center";
+      }
+
+      let canvas = document.querySelector("canvas");
+      let btn = document.querySelector("#btn");
+
+      btn.addEventListener("click", transform);
+
+      // add a function to 12 zodiac animal images display when user type their birth year
+      //create a function to changes the img
+      function showZodiacAnimal(year) {
+        //allowing images show up on the screen
+        let img = document.querySelector("#animal");
+        img.style.display = "block";
+
+        //array holds the names of the twelve Chinese zodiac animals in the order of their appearance in the zodiac cycle.
+        let zodiacAnimals = [
+          "rat",
+          "ox",
+          "tiger",
+          "rabbit",
+          "dragon",
+          "snake",
+          "horse",
+          "goat",
+          "monkey",
+          "rooster",
+          "dog",
+          "pig",
+        ];
+
+        let index = (year - 1900) % 12; //using 1900 as the base year is historical and related to the Chinese zodiac cycle.
+        let zodiacAnimal = zodiacAnimals[index]; //bring back the name of the zodiac animal based on the calculated index.
+        // Call the function to display paragraph
+        addAnimalPersonality(index);
+        let imgResource = document.querySelector("#animal"); //define "imgResource"variabl to represent the HTML element with the ID "animal"
+        let imagePath = `images/${zodiacAnimal}.avif`; //using a template string to include the zodiac animal name.
+
+        // Try to load AVIF format, fallback to JPEG
+        //create a string that can include variables or expressions.
+        imgResource.src = imagePath;
+        imgResource.alt = `Chinese Zodiac Animal: ${zodiacAnimal}`; //allowing insert the value of a variable or an expression directly into the string
+        imgResource.onerror = function () {
+          // AVIF failed to load, switch to JPEG
+          imgResource.src = `images/${zodiacAnimal}.jpeg`;
+        };
+      }
+
+      //create a function when the user clicks a button
+      function btn1() {
+        //
+        let user = document.getElementById("year");
+        let el = user.value;
+        if (el > 1900) {
+          //call function that change , passing the user value
+          showZodiacAnimal(user.value);
+          // Set isButtonClicked to true when the button is clicked
+          isButtonClicked = true;
+          // Call the transform function to update the canvas color
+          transform();
+        } else if (isNaN(el)) {
+          // Check if it is not a number, the alert comes up
+          alert("Something is wrong, please type a 4-digit number.");
+        } else if (el < 1900) {
+          alert(
+            "I assume that you are not over 100 years old. Please type the correct number"
+          );
+        } else {
+          alert("👮🏿‍♀️You should insert only numbers!!!");
+        }
+      }
+
+      function addAnimalPersonality(indexValue) {
+        let animalDescription = [
+          "rat is a loyal person , that likes bussines",
+          "Those born in the Year of the Ox are said to be diligent, dependable, strong, determined, honest, patriotic, and ambitious, with strong ties to their family and traditional values. ",
+          "Tiger people like to be in control of things. They are quick-tempered and emotionally intense when they are upset. They never give up when they are frustrated or when there is no hope left. When they aren't mad they are very generous, warm-hearted, and humorous.",
+          "The personality of rats are very social, expressive and talkative. They like to be around people and they treat their friends like they are family. Rats are very hard-working people; they would give it all to achieve their goal. They are also very organized and are perfectionists.",
+          "The personality traits of people born in the year of the dragon are: charismatic, intelligent, confident, powerful and they are naturally lucky and gifted. In everything that they do, they tend to do it to the best of their ability with high standards",
+          " intuitive, sensitive, extremely competent, funny, diligent, imaginative, sympathetic, wise, persuasive, and passionate.",
+          "The sixth animal in the Chinese zodiac is the horse. Power, beauty, and freedom symbolize the horse in the Chinese culture. People born in the year of the horse are very high-spirited, active and energetic. Their enthusiasm and cheerful personalities make people like them.",
+          "In Chinese astrology, Goats are described as peace-loving, kind, and popular. With the addition of the Wood element, the Goat characteristic is thought to love peace and to be helpful and trusting, but yet also to be clinging and resistant to change",
+          "People born under the Monkey sign are clever and quick learners. They have agile minds and enjoy challenging themselves with new ideas. Monkeys are adaptable, able to think on their feet and find solutions to various problems. Monkeys are social creatures and enjoy being around people.",
+          "They have a quick mind and hot temper. They like to be busy and neat. With strong enterprise and conscientiousness, they are reluctant to fall behind others and hate dawdlers. They always complete things according to their previous plans.",
+          "People born in the year of the Dog may be endowed with some lovely dog personality traits: honest, amiable, kind, cautious, prudent, loyal, reliable, considerate, understanding, patient, hard-working, and sincere.",
+          "People born in the year of the pig are innocent, and they enjoy happiness. They are laid-back, caring, considerate, and kind, which makes them the best friends to have. Unfortunately, no one is perfect. People born in this zodiac year are also immature, simple-minded, and not financially intelligent.",
+        ];
+        let animalPersonality = document.getElementById("animalPersonality");
+        animalPersonality.innerHTML = animalDescription[indexValue];
+        animalPersonality.style.display = "-webkit-box";
+      }
+
+      let btn2 = document.getElementById("button");
+      //we call funtion btn1 when the user clicks button
+      btn2.addEventListener("click", btn1);
+    </script>
+  </body>
+</html>
