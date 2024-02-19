@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>useless web</title>
+    <title>Zodiac Animal</title>
 
     <style>
       * {
@@ -14,42 +14,48 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        height: 500px;
+        height: 500px;
         background-color: #0a3a2e;
+        cursor: none; /* remove default cursor */
       }
-      /* canvas {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      } */
-      #btn {
+
+      #door {
+        top: 15%;
+        left: 50%;
         position: absolute;
-        top: 40%;
+        border: 5px double #f2f2f2;
+        padding: 150px 40px;
+        background-color: #f58383;
+      }
+      #btn {
+        position: relative;
+        top: 20%;
         left: 60%;
-        padding: 20px;
-        background-color: #92efcb;
+        padding: 20px 10px;
         color: #0a3a2e;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 24px;
-        border: 0;
+        font-size: 20px;
         border-radius: 10px;
+        border-style: none;
         box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.8);
-        cursor: pointer;
+        cursor: none;
       }
-      #btn:hover {
+      /* #btn:hover {
         background-color: #f2f2f2;
         box-shadow: none;
-      }
+      } */
 
       #action {
         position: relative;
         display: flex;
         flex-direction: column;
-        width: 500px; /* Adjust to the width of canvas */
-        height: 500px; /* Adjust to the height of canvas */
+        width: 550px; /* Adjust to the width of canvas */
+        height: 200px; /* Adjust to the height of canvas */
       }
       H1 {
         padding: 20px;
+
         display: block;
         border-radius: 5px;
         background-color: #acf4de;
@@ -89,32 +95,94 @@
         color: #f2f2f2;
         border: 0;
         display: none;
+        cursor: none;
       }
       #button:hover {
         background-color: #f2f2f2;
         color: #f7376ac7;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        cursor: pointer;
+        /* cursor: pointer; */
       }
       img {
-        margin-left: 25px;
-        margin-top: 10px;
-        width: 50%;
+        margin-left: 30px;
+        /* margin-top: 10px; */
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.8);
+        width: 40vw;
+        height: 40vh;
         display: none;
       }
+      #personalityContainer {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
       #animalPersonality {
+        position: relative;
+        width: 100%;
+        height: 100%;
         display: none;
-        background-color: white;
-        color: black;
-        border: 5px solid black;
-        font-family: "Courier New", Courier, monospace;
-        font-size: large;
-        padding: 20px 10px 20px 10px;
-        border-radius: 50px;
-        margin: 10px;
+        background-color: rgba(
+          30,
+          28,
+          28,
+          0.308
+        ); /* Adjust the alpha (last value) for transparency */
+        color: rgb(239, 239, 239);
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.8);
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        font-size: 20px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      #bestMatch {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background-color: rgba(
+          30,
+          28,
+          28,
+          0.308
+        ); /* Adjust the alpha (last value) for transparency */
+        color: rgb(239, 239, 239);
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.8);
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        font-size: 20px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      #imgContainer {
+        display: flex;
+        flex-direction: row;
+        width: 70vw;
+        height: 100vh;
+        margin-top: 100px;
+        margin-bottom: 20px;
+      }
+      #cursor {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        background-image: url("images/footprint.png");
+        background-position: center;
+        background-size: cover;
+        background-origin: center;
+        transition: 0.1s;
+        pointer-events: none;
+        mix-blend-mode: difference; /* change the different color between elements  */
+        cursor: none;
       }
     </style>
   </head>
+
+  <!-- Start: HTML -->
   <body>
     <div id="action">
       <h1 id="welcome"></h1>
@@ -122,27 +190,57 @@
         <input id="year" />
         <button id="button">Generate</button>
       </div>
-      <img id="animal" alt="Chinese Zodiac Animal" />
+      <div id="imgContainer">
+        <img id="animal" alt="Chinese Zodiac Animal" />
+        <div id="personalityContainer">
+          <p id="animalPersonality"></p>
+          <p id="bestMatch"></p>
+        </div>
+      </div>
     </div>
-    <div id="leftRight">
-      <p id="animalPersonality">Description of the animal that you choose.</p>
+    <div id="door">
       <button id="btn">Knock!Knock!</button>
-      <canvas id="canvas" width="500" height="500"></canvas>
     </div>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <div id="cursor"></div>
+
     <script>
-      console.log("nanobot was here!!🤖");
-      console.log("nanobot was here1!!🤖");
-      document.body.style.cursor = "pointer";
       //  using boolean
       // Variable to track button click
       // allowing canvas " CAT " change fillstyle
       let isButtonClicked = false;
 
+      //declare a variable
+      //select the HTML element with ID
+      //add an event listener to element
+      //"mousemove" event is activated when mouse move around. Create an effect where a custom cursor tracks the user's movements.
+      const cursor = document.querySelector("#cursor");
+
+      document.addEventListener("mousemove", (event) => {
+        // Here is an arrow function that handle the "mousemove" event, including mouse position
+        cursor.style.left = event.clientX + "px"; //The horizontal coordinate of the mouse pointer.
+        cursor.style.top = event.clientY + "px"; //The vertical coordinate of the mouse pointer.
+        document.body.style.cursor = "none"; // Hide the default cursor
+      });
+
+      //change the background-color "knockKnock" button when the  "mouseover" and "mouseout"
+      let knock = document.querySelector("#btn");
+
+      function MouseOver() {
+        knock.style.background = "#92efcb";
+      }
+
+      function MouseOut() {
+        knock.style.background = "#f2f2f2";
+      }
+
+      knock.addEventListener("mouseover", MouseOver);
+      knock.addEventListener("mouseout", MouseOut);
+
+      //// Change the color when the button click
       function transform() {
         let canvas = document.querySelector("canvas");
         let context = canvas.getContext("2d");
-
-        //// Change the color of the circle based on button click
 
         if (event.type === "click") {
           // body
@@ -276,8 +374,11 @@
 
           // Hide the button
           btn.style.display = "none";
+          door.style.display = "none";
         } else if (event.type === "mouseover") {
         }
+
+        // set up a delay of the time to show the content
         setTimeout(popupMessege, 1900);
       }
 
@@ -285,33 +386,28 @@
       function popupMessege() {
         let h1 = document.getElementById("welcome");
         h1.innerHTML =
-          "Welcome to 2024. What is your zodiac sign based on your year ?";
+          "Welcome to 2024. What is your zodiac sign based on your year of birth ? ";
         h1.style.display = "block";
 
-        // Allowing users to type their year of birth
+        // adding the input placeholder to guide users
         let input = document.querySelector("#year");
         input.type = "text";
         input.placeholder = "The year of your birth";
         input.style.display = "block";
 
-        //
-
+        // style the button
         let button = document.querySelector("#button");
         button.style.display = "flex";
         button.style.alignItems = "center";
       }
 
-      let canvas = document.querySelector("canvas");
-      let btn = document.querySelector("#btn");
-
-      btn.addEventListener("click", transform);
-
       // add a function to 12 zodiac animal images display when user type their birth year
       //create a function to changes the img
       function showZodiacAnimal(year) {
         //allowing images show up on the screen
+        //style the img
         let img = document.querySelector("#animal");
-        img.style.display = "block";
+        img.style.display = "flex";
 
         //array holds the names of the twelve Chinese zodiac animals in the order of their appearance in the zodiac cycle.
         let zodiacAnimals = [
@@ -328,11 +424,12 @@
           "dog",
           "pig",
         ];
-
         let index = (year - 1900) % 12; //using 1900 as the base year is historical and related to the Chinese zodiac cycle.
         let zodiacAnimal = zodiacAnimals[index]; //bring back the name of the zodiac animal based on the calculated index.
+
         // Call the function to display paragraph
         addAnimalPersonality(index);
+
         let imgResource = document.querySelector("#animal"); //define "imgResource"variabl to represent the HTML element with the ID "animal"
         let imagePath = `images/${zodiacAnimal}.avif`; //using a template string to include the zodiac animal name.
 
@@ -346,16 +443,20 @@
         };
       }
 
-      //create a function when the user clicks a button
+      //create a function to change images when user click the button
       function btn1() {
-        //
+        //  get ID from DOM
         let user = document.getElementById("year");
+
+        //get the input from the user
         let el = user.value;
         if (el > 1900) {
           //call function that change , passing the user value
           showZodiacAnimal(user.value);
+
           // Set isButtonClicked to true when the button is clicked
           isButtonClicked = true;
+
           // Call the transform function to update the canvas color
           transform();
         } else if (isNaN(el)) {
@@ -363,36 +464,79 @@
           alert("Something is wrong, please type a 4-digit number.");
         } else if (el < 1900) {
           alert(
-            "I assume that you are not over 100 years old. Please type the correct number"
+            " I assume that you are not over 100 years old. Please type the correct number"
           );
-        } else {
-          alert("👮🏿‍♀️You should insert only numbers!!!");
         }
       }
 
+      //add an event to the button
+      let canvas = document.querySelector("canvas");
+      let btn = document.querySelector("#btn");
+
+      btn.addEventListener("click", transform);
+
       function addAnimalPersonality(indexValue) {
         let animalDescription = [
-          "rat is a loyal person , that likes bussines",
+          "The first animal who like to be with their people and be smart to explore. Also it is a person who likes business. In Chinese culture, rats represent working diligently and thriftiness, so people born in a Rat year are thought to be wealthy and prosperous. ",
           "Those born in the Year of the Ox are said to be diligent, dependable, strong, determined, honest, patriotic, and ambitious, with strong ties to their family and traditional values. ",
           "Tiger people like to be in control of things. They are quick-tempered and emotionally intense when they are upset. They never give up when they are frustrated or when there is no hope left. When they aren't mad they are very generous, warm-hearted, and humorous.",
-          "The personality of rats are very social, expressive and talkative. They like to be around people and they treat their friends like they are family. Rats are very hard-working people; they would give it all to achieve their goal. They are also very organized and are perfectionists.",
+          "The Year of the Rabbit is the fourth year in the cycle, People born in the Year of the Rabbit are believed to be quiet, kind, polite, restrained and thoughtful. They also tend to hesitate and wait, proceeding with caution or reservation, which can cause them to miss opportunities. Highly sensitive and sentimental, those born in the Year of the Rabbit attach importance to friendship and fellowship. However, due to their tender-hearted nature, they can be easily hurt and influenced by their emotions",
           "The personality traits of people born in the year of the dragon are: charismatic, intelligent, confident, powerful and they are naturally lucky and gifted. In everything that they do, they tend to do it to the best of their ability with high standards",
           " intuitive, sensitive, extremely competent, funny, diligent, imaginative, sympathetic, wise, persuasive, and passionate.",
           "The sixth animal in the Chinese zodiac is the horse. Power, beauty, and freedom symbolize the horse in the Chinese culture. People born in the year of the horse are very high-spirited, active and energetic. Their enthusiasm and cheerful personalities make people like them.",
           "In Chinese astrology, Goats are described as peace-loving, kind, and popular. With the addition of the Wood element, the Goat characteristic is thought to love peace and to be helpful and trusting, but yet also to be clinging and resistant to change",
-          "People born under the Monkey sign are clever and quick learners. They have agile minds and enjoy challenging themselves with new ideas. Monkeys are adaptable, able to think on their feet and find solutions to various problems. Monkeys are social creatures and enjoy being around people.",
+          "People born under the Monkey sign are clever and quick learners. They have agile minds and enjoy challenging themselves with new ideas. Monkeys are adaptable, able to think on other's feet and find solutions to various problems. Monkeys are social creatures and enjoy being around people.",
           "They have a quick mind and hot temper. They like to be busy and neat. With strong enterprise and conscientiousness, they are reluctant to fall behind others and hate dawdlers. They always complete things according to their previous plans.",
           "People born in the year of the Dog may be endowed with some lovely dog personality traits: honest, amiable, kind, cautious, prudent, loyal, reliable, considerate, understanding, patient, hard-working, and sincere.",
           "People born in the year of the pig are innocent, and they enjoy happiness. They are laid-back, caring, considerate, and kind, which makes them the best friends to have. Unfortunately, no one is perfect. People born in this zodiac year are also immature, simple-minded, and not financially intelligent.",
         ];
+        let bestMatch = [
+          "Best match: Ox, Dragon, Monkey",
+          "Best match: Rat, Snake, Rooster",
+          "Best match: Dragon, Horse, Pig",
+          "Best match: Sheep, Monkey, Dog, Pig",
+          "Best match: Rooster, Rat, Monkey",
+          "Best match: Dragon, Rooster",
+          "Best match: Tiger, Sheep",
+          "Best match: Rabbit, Horse, Pig",
+          "Best match: Ox, Rabbit",
+          "Best match: Ox, Snake",
+          "Best match: Rabbit",
+          "Best match: Tiger, Rabbit, Sheep",
+        ];
+
+        //change the style of "animal personaltiy" paragraph
         let animalPersonality = document.getElementById("animalPersonality");
+        let bestMatchElement = document.getElementById("bestMatch");
+
+        // Set the content for "animalPersonality" and "bestMatch"
         animalPersonality.innerHTML = animalDescription[indexValue];
-        animalPersonality.style.display = "-webkit-box";
+        bestMatchElement.innerHTML = bestMatch[indexValue];
+
+        //here is animalPersonality style
+        animalPersonality.style.display = "block";
+        animalPersonality.style.fontSize = "16px";
+        animalPersonality.style.color = "#f2f2f2";
+        animalPersonality.justContent = "center";
+        animalPersonality.style.lineHeight = "1.5";
+
+        // here is bestMatch style
+        bestMatchElement.style.display = "block";
+        bestMatchElement.style.fontSize = "16px";
+        bestMatchElement.style.color = "#f2f2f2";
+        bestMatchElement.justifyContent = "center"; // Fix the property name
+        bestMatchElement.style.lineHeight = "1.5";
       }
 
+      //Add an event to call the function btn1 when the user clicks the button
       let btn2 = document.getElementById("button");
-      //we call funtion btn1 when the user clicks button
+
       btn2.addEventListener("click", btn1);
+
+      // Add an event to call the function addAnimalPersonality when the user clicks the button
+      let btn3 = document.getElementById("button");
+
+      btn3.addEventListener("click", transform);
     </script>
   </body>
 </html>
